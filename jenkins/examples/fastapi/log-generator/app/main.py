@@ -1,8 +1,13 @@
 from fastapi import FastAPI, HTTPException
 import time
 
-app = FastAPI()
+# https통신을 위해 수정
+app = FastAPI(title='EKS Project',
+              description='EFK Test',
+              openapi_url='/api/openapi.json')
+
 log_filename = "tenant.log"
+output = "output.log"
 
 
 @app.get("/")
@@ -11,18 +16,17 @@ async def log():
 
 
 @app.get("/generate_raon_log/")
-async def generate_log(count: int, interval: int):
-    if count <= 0:
-        raise HTTPException(status_code=400, detail="count는 1 이상이어야 합니다.")
-    if interval <= 0:
-        raise HTTPException(status_code=400, detail="interval은 1 이상이어야 합니다.")
+async def generate_log(interval: int):
 
     result = "success"
 
     with open(log_filename, "r") as logfile:
-        lines = logfile.readlines()
-        for line in lines:
-            print(line)
-            time.sleep(interval)
+        with open(output, 'w+') as outlog:
+            lines = logfile.readlines()
+            for line in lines:
+                print(line)
+                outlog.write(line)
+                outlog.flush()
+                time.sleep(interval)
 
     return result

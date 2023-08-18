@@ -1,5 +1,5 @@
 FROM ubuntu:22.04
-RUN apt update -y && apt-get install -y python3 python3-pip net-tools iproute2
+RUN apt update -y && apt-get install -y python3 python3-pip net-tools iproute2 bash curl
 
 COPY requirements.txt /tmp/requirements.txt
 RUN pip3 install --no-cache-dir -r /tmp/requirements.txt
