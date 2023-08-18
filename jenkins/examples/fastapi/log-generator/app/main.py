@@ -5,6 +5,11 @@ app = FastAPI()
 log_filename = "tenant.log"
 
 
+@app.get("/")
+async def log():
+    return "app for log test"
+
+
 @app.get("/generate_raon_log/")
 async def generate_log(count: int, interval: int):
     if count <= 0:
