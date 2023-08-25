@@ -4,7 +4,7 @@ import logging
 
 app = FastAPI()
 
-log_filename = "tenant.log"
+log_filename = "one.log"
 logger = logging.getLogger(__name__)
 
 console_handler = logging.StreamHandler()
@@ -25,7 +25,7 @@ async def log():
     return "app for log test"
 
 
-@app.get("/generate_raon_log/")
+@app.get("/generate_oneline_log/")
 async def generate_log():
 
     result = ""
@@ -36,5 +36,18 @@ async def generate_log():
         line_number = random.randrange(0, size)
         logger.info(lines[line_number])
         result = lines[line_number]
+
+    return result
+
+
+@app.get("/generate_multi_log/")
+async def generate_log():
+    result = "success"
+    logfile = "multi.log"
+
+    with open(logfile, "r") as multi:
+        lines = multi.readlines()
+        for line in lines:
+            logger.info(line.rstrip('\n'))
 
     return result
